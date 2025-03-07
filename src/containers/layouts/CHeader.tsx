@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function CHeader() {
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -5,7 +7,9 @@ export default function CHeader() {
         <a className="btn btn-ghost text-xl">daisyUI</a>
       </div>
       <div className="flex gap-2">
-        <button className="btn btn-accent">로그인</button>
+        <Link href="/login">
+          <button className="btn btn-accent">로그인</button>
+        </Link>
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}

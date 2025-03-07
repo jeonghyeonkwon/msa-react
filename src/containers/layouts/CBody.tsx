@@ -4,5 +4,5 @@ interface CBodyProps {
   children: ReactNode;
 }
 export default function CBody({ children }: CBodyProps) {
-  return <>{children}</>;
+  return <div className="h-full">{children}</div>;
 }
