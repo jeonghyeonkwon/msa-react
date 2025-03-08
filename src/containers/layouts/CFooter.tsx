@@ -1,9 +1,16 @@
 import Link from "next/link";
 
-export default function CFooter() {
+interface CFooterProps {
+  footerRef: React.RefObject<HTMLDivElement | null>;
+}
+
+export default function CFooter({ footerRef }: CFooterProps) {
   return (
-    <div className="dock bg-neutral text-neutral-content absolute">
-      <Link href="/">
+    <div
+      className="dock bg-neutral text-neutral-content absolute "
+      ref={footerRef}
+    >
+      <Link href="/" className="">
         <svg
           className="size-[1.2em]"
           xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +21,7 @@ export default function CFooter() {
               points="1 11 12 2 23 11"
               fill="none"
               stroke="currentColor"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></polyline>
             <path
@@ -22,7 +29,7 @@ export default function CFooter() {
               fill="none"
               stroke="currentColor"
               strokeLinecap="square"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></path>
             <line
@@ -33,7 +40,7 @@ export default function CFooter() {
               fill="none"
               stroke="currentColor"
               strokeLinecap="square"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></line>
           </g>
@@ -51,7 +58,7 @@ export default function CFooter() {
               points="3 14 9 14 9 17 15 17 15 14 21 14"
               fill="none"
               stroke="currentColor"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></polyline>
             <rect
@@ -64,7 +71,7 @@ export default function CFooter() {
               fill="none"
               stroke="currentColor"
               strokeLinecap="square"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></rect>
           </g>
@@ -86,7 +93,7 @@ export default function CFooter() {
               fill="none"
               stroke="currentColor"
               strokeLinecap="square"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></circle>
             <path
@@ -94,7 +101,7 @@ export default function CFooter() {
               fill="none"
               stroke="currentColor"
               strokeLinecap="square"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
               strokeWidth="2"
             ></path>
           </g>

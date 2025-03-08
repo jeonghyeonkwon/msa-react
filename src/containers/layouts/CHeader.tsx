@@ -1,8 +1,11 @@
 import Link from "next/link";
 
-export default function CHeader() {
+interface CHeaderProps {
+  headerRef: React.RefObject<HTMLDivElement | null>;
+}
+export default function CHeader({ headerRef }: CHeaderProps) {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-sm" ref={headerRef}>
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">daisyUI</a>
       </div>

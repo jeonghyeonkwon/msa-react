@@ -1,28 +1,64 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
+
+import CHeader from "./CHeader";
+import CBody from "./CBody";
+import CFooter from "./CFooter";
 
 interface CLayoutProps {
   children: ReactNode;
 }
 
 export default function CLayout({ children }: CLayoutProps) {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
+  const [footerHeight, setFooterHeight] = useState(0);
 
-  const handleResize = () => {
-    setIsMobile(window.innerWidth <= 768);
-  };
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
-  window.addEventListener("resize", handleResize);
+  useEffect(() => {
+    if (footerRef.current) {
+      setFooterHeight(footerRef.current.offsetHeight);
+    }
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
       {isMobile ? (
-        <>{children}</>
+        <div className="h-screen relative overflow-hidden">
+          <CHeader headerRef={headerRef} />
+          <div className="bg-black h-full">
+            <CBody footerHeight={footerHeight} headerHeight={headerHeight}>
+              {children}
+            </CBody>
+          </div>
+          <CFooter footerRef={footerRef} />
+        </div>
       ) : (
         <div className="w-full h-screen flex justify-center items-center ">
           <div className="mockup-phone border-primary">
             <div className="mockup-phone-camera"></div>
-            <div className="mockup-phone-display relative">{children}</div>
+            <div className="mockup-phone-display relative">
+              <CHeader headerRef={headerRef} />
+              <CBody footerHeight={footerHeight} headerHeight={headerHeight}>
+                {children}
+              </CBody>
+              <CFooter footerRef={footerRef} />
+            </div>
           </div>
         </div>
       )}

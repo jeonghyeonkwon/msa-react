@@ -1,12 +1,9 @@
-import CInput from "@/components/CInput";
-import Link from "next/link";
-
-export default function LoginContainer() {
+export default function RegisterContainer() {
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex justify-center items-center w-full h-full overflow-hidden">
       <div className="card card-border bg-base-100 w-96">
         <div className="card-body">
-          <h2 className="card-title mb-3">Login</h2>
+          <h2 className="card-title mb-3">Register</h2>
           <label className="input mb-3 ">
             <svg
               className="h-[1em] opacity-50"
@@ -57,14 +54,9 @@ export default function LoginContainer() {
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
           </label>
-
+          <input type="text" placeholder="닉네임" className="input mb-3" />
           <div className="card-actions justify-end">
-            <button className="btn btn-primary btn-block">로그인</button>
-          </div>
-          <div className="card-actions justify-end">
-            <Link className="btn btn-success btn-block" href="/register">
-              회원가입
-            </Link>
+            <button className="btn btn-primary btn-block">회원가입</button>
           </div>
         </div>
       </div>
