@@ -7,7 +7,7 @@ export default function CHeader({ headerRef }: CHeaderProps) {
   return (
     <div className="navbar bg-base-100 shadow-sm" ref={headerRef}>
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">MSA</a>
       </div>
       <div className="flex gap-2">
         <Link href="/login">

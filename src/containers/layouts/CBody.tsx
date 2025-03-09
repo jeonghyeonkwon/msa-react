@@ -14,7 +14,10 @@ export default function CBody({
   console.log("headerHeight", headerHeight);
   return (
     <div
-      style={{ height: `calc(100% - ${footerHeight}px - ${headerHeight}px)` }}
+      style={{
+        height: `calc(100% - ${footerHeight}px - ${headerHeight}px )`,
+      }}
+      className="pt-2 pb-2"
     >
       {children}
     </div>

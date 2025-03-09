@@ -1,10 +1,45 @@
+"use client";
+import { register } from "@/api/auth";
+import { IRegister } from "@/interfaces/Auth";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
+
 export default function RegisterContainer() {
+  const [form, setForm] = useState<IRegister>({
+    username: "",
+    password: "",
+    nickname: "",
+  });
+  const mutation = useMutation({
+    mutationFn: register,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setForm((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    },
+    [form]
+  );
+  const onClickRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    mutation.mutate(form);
+  };
   return (
-    <div className="flex justify-center items-center w-full h-full overflow-hidden">
+    <div className="flex items-center justify-center w-full h-full overflow-hidden">
       <div className="card card-border bg-base-100 w-96">
         <div className="card-body">
-          <h2 className="card-title mb-3">Register</h2>
-          <label className="input mb-3 ">
+          <h2 className="mb-3 card-title">Register</h2>
+          <label className="mb-3 input ">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -23,13 +58,15 @@ export default function RegisterContainer() {
             </svg>
             <input
               type="input"
-              required
+              name="username"
+              value={form.username}
+              onChange={handleChange}
               placeholder="아이디"
               title="Only letters, numbers or dash"
             />
           </label>
 
-          <label className="input mb-3">
+          <label className="mb-3 input">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -48,15 +85,29 @@ export default function RegisterContainer() {
             </svg>
             <input
               type="password"
-              required
+              name="password"
+              value={form.password}
+              onChange={handleChange}
               placeholder="비밀번호"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
           </label>
-          <input type="text" placeholder="닉네임" className="input mb-3" />
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary btn-block">회원가입</button>
+          <input
+            type="text"
+            name="nickname"
+            value={form.nickname}
+            onChange={handleChange}
+            placeholder="닉네임"
+            className="mb-3 input"
+          />
+          <div className="justify-end card-actions">
+            <button
+              className="btn btn-primary btn-block"
+              onClick={(e) => onClickRegister(e)}
+            >
+              회원가입
+            </button>
           </div>
         </div>
       </div>

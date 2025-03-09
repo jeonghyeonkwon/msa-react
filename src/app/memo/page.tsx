@@ -1,5 +1,13 @@
 import MemoContainer from "@/containers/MemoContainer";
-
+import Link from "next/link";
 export default function Memo() {
-  return <MemoContainer />;
+  return (
+    <div className="h-full overflow-y-auto">
+      <Link href="/memo/create" className="mb-2 ml-2 btn btn-info">
+        New.
+      </Link>
+
+      <MemoContainer />
+    </div>
+  );
 }

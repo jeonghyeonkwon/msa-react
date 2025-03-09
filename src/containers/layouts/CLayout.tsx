@@ -41,7 +41,7 @@ export default function CLayout({ children }: CLayoutProps) {
       {isMobile ? (
         <div className="h-screen relative overflow-hidden">
           <CHeader headerRef={headerRef} />
-          <div className="bg-black h-full">
+          <div className="bg-black h-full pl-2 pr-2">
             <CBody footerHeight={footerHeight} headerHeight={headerHeight}>
               {children}
             </CBody>

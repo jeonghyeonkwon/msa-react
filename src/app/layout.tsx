@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { CBody, CFooter, CHeader, CLayout } from "@/containers/layouts";
+import { ReactQueryClientProvider } from "@/hooks/useReactQuery";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,13 +26,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" suppressHydrationWarning>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <CLayout>{children}</CLayout>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="ko" suppressHydrationWarning>
+        <head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+        </head>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <CLayout>{children}</CLayout>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }
