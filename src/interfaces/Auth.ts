@@ -4,5 +4,5 @@ export interface IAuth {
 }
 
 export interface IRegister extends IAuth {
-  nickname: string;
+  nickName: string;
 }

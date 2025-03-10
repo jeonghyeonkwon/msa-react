@@ -1,6 +1,5 @@
 import { RequestMethod } from "./Request";
 
-const APPLICATION_JSON = "application/json";
 const AUTHORIZATION = "authorization";
 const BEARER = "Bearer ";
 
@@ -11,7 +10,7 @@ export const useApi = () => {
     body?: any
   ) => {
     const headers: any = {
-      Content_Type: "application/json",
+      "Content-Type": "application/json",
     };
 
     headers[AUTHORIZATION] = `${BEARER}`;
@@ -32,11 +31,11 @@ export const useApi = () => {
 
     if (!response.ok) {
       const errorBody = await response.json();
-
       console.error(errorBody);
+      throw new Error(errorBody.message);
     }
-
-    return response.json();
+    const responseBody = await response.json();
+    return responseBody;
   };
   return { fetchData };
 };

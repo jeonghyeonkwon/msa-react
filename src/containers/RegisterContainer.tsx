@@ -1,22 +1,26 @@
 "use client";
 import { register } from "@/api/auth";
+import CAlert from "@/components/CAlert";
 import { IRegister } from "@/interfaces/Auth";
+import { AlertEnum } from "@/interfaces/components/Alert";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 export default function RegisterContainer() {
+  const router = useRouter();
   const [form, setForm] = useState<IRegister>({
     username: "",
     password: "",
-    nickname: "",
+    nickName: "",
   });
-  const mutation = useMutation({
+
+  const { mutate, isPending, isSuccess, isError, error } = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
+      setTimeout(() => {
+        router.push("/login");
+      }, 3000);
     },
   });
 
@@ -32,7 +36,7 @@ export default function RegisterContainer() {
   );
   const onClickRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    mutation.mutate(form);
+    mutate(form);
   };
   return (
     <div className="flex items-center justify-center w-full h-full overflow-hidden">
@@ -63,6 +67,7 @@ export default function RegisterContainer() {
               onChange={handleChange}
               placeholder="아이디"
               title="Only letters, numbers or dash"
+              disabled={isPending || isSuccess}
             />
           </label>
 
@@ -89,26 +94,36 @@ export default function RegisterContainer() {
               value={form.password}
               onChange={handleChange}
               placeholder="비밀번호"
+              disabled={isPending || isSuccess}
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
           </label>
           <input
             type="text"
-            name="nickname"
-            value={form.nickname}
+            name="nickName"
+            value={form.nickName}
             onChange={handleChange}
             placeholder="닉네임"
+            disabled={isPending || isSuccess}
             className="mb-3 input"
           />
           <div className="justify-end card-actions">
             <button
               className="btn btn-primary btn-block"
               onClick={(e) => onClickRegister(e)}
+              disabled={isPending || isSuccess}
             >
               회원가입
             </button>
           </div>
+          {isSuccess && (
+            <CAlert type={AlertEnum.SUCCESS}>
+              회원 가입 성공! <br />
+              (3초 뒤 로그인 페이지로 이동합니다.)
+            </CAlert>
+          )}
+          {isError && <CAlert type={AlertEnum.ERROR}>{error.message}</CAlert>}
         </div>
       </div>
     </div>

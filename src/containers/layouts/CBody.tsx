@@ -10,8 +10,6 @@ export default function CBody({
   footerHeight,
   headerHeight,
 }: CBodyProps) {
-  console.log("footerHeight", footerHeight);
-  console.log("headerHeight", headerHeight);
   return (
     <div
       style={{
