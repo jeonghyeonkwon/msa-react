@@ -1,4 +1,4 @@
-export enum AlertEnum {
+export enum IAlertEnum {
   INFO = "alert-info",
   SUCCESS = "alert-success",
   WARNING = "alert-warning",

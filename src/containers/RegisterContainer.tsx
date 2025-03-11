@@ -2,7 +2,7 @@
 import { register } from "@/api/auth";
 import CAlert from "@/components/CAlert";
 import { IRegister } from "@/interfaces/Auth";
-import { AlertEnum } from "@/interfaces/components/Alert";
+import { IAlertEnum } from "@/interfaces/components/Alert";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -118,12 +118,12 @@ export default function RegisterContainer() {
             </button>
           </div>
           {isSuccess && (
-            <CAlert type={AlertEnum.SUCCESS}>
+            <CAlert type={IAlertEnum.SUCCESS}>
               회원 가입 성공! <br />
               (3초 뒤 로그인 페이지로 이동합니다.)
             </CAlert>
           )}
-          {isError && <CAlert type={AlertEnum.ERROR}>{error.message}</CAlert>}
+          {isError && <CAlert type={IAlertEnum.ERROR}>{error.message}</CAlert>}
         </div>
       </div>
     </div>

@@ -1,13 +1,48 @@
-import CInput from "@/components/CInput";
+import { login } from "@/api/auth";
+import CAlert from "@/components/CAlert";
+import { IAuth } from "@/interfaces/Auth";
+import { IAlertEnum } from "@/interfaces/components/Alert";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { useCallback, useState } from "react";
 
 export default function LoginContainer() {
+  const router = useRouter();
+  const [form, setForm] = useState<IAuth>({
+    username: "",
+    password: "",
+  });
+  const { mutate, isPending, isSuccess, isError, error } = useMutation({
+    mutationFn: login,
+    onSuccess(data) {
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    },
+  });
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setForm((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    },
+    [form]
+  );
+  const onClickLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    mutate(form);
+  };
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex items-center justify-center w-full h-full">
       <div className="card card-border bg-base-100 w-96">
         <div className="card-body">
-          <h2 className="card-title mb-3">Login</h2>
-          <label className="input mb-3 ">
+          <h2 className="mb-3 card-title">Login</h2>
+          <label className="mb-3 input ">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -26,13 +61,15 @@ export default function LoginContainer() {
             </svg>
             <input
               type="input"
-              required
               placeholder="아이디"
+              name="username"
+              onChange={handleChange}
+              disabled={isPending || isSuccess}
               title="Only letters, numbers or dash"
             />
           </label>
 
-          <label className="input mb-3">
+          <label className="mb-3 input">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -51,21 +88,35 @@ export default function LoginContainer() {
             </svg>
             <input
               type="password"
-              required
+              name="password"
+              onChange={handleChange}
               placeholder="비밀번호"
+              disabled={isPending || isSuccess}
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
           </label>
 
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary btn-block">로그인</button>
+          <div className="justify-end card-actions">
+            <button
+              className="btn btn-primary btn-block"
+              onClick={onClickLogin}
+              disabled={isPending || isSuccess}
+            >
+              로그인
+            </button>
           </div>
-          <div className="card-actions justify-end">
+          <div className="justify-end card-actions">
             <Link className="btn btn-success btn-block" href="/register">
               회원가입
             </Link>
           </div>
+          {isSuccess && (
+            <CAlert type={IAlertEnum.SUCCESS}>
+              로그인 성공 <br /> 3초 뒤 이동합니다
+            </CAlert>
+          )}
+          {isError && <CAlert type={IAlertEnum.ERROR}>{error.message}</CAlert>}
         </div>
       </div>
     </div>
