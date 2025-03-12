@@ -13,3 +13,8 @@ export const login = async (dto: IAuth): Promise<any> => {
   const { fetchData } = useApi();
   return await fetchData(LOGIN_URL, RequestMethod.POST, dto);
 };
+
+export const certification = async (): Promise<any> => {
+  const { fetchData } = useApi();
+  return await fetchData(BASE_ENDPOINT(""), RequestMethod.GET);
+};
