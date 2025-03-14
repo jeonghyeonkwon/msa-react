@@ -2,6 +2,7 @@
 
 import { certification } from "@/api/auth";
 import { getMemos } from "@/api/memo";
+import Pagenation from "@/components/Pagenation";
 import { IMemoSimple } from "@/interfaces/Memo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -66,39 +67,14 @@ export default function MemoContainer() {
               </div>
             </div>
           )}
-          <div className="flex items-center justify-center mb-3 join">
-            <button
-              className={`join-item btn ${
-                !pageData.isFirst ? "btn-disabled" : ""
-              }`}
-              onClick={() => onChangePage(pageData.startBlockPage - 1)}
-            >
-              «
-            </button>
-            {Array.from(
-              { length: pageData.endBlockPage - pageData.startBlockPage + 1 },
-              (_, index) => pageData.startBlockPage + index
-            ).map((number) => {
-              return (
-                <button
-                  className={`join-item btn btn-md ${
-                    number === pageData.currentPage ? "btn-active" : ""
-                  }`}
-                  onClick={() => onChangePage(number)}
-                >
-                  {number + 1}
-                </button>
-              );
-            })}
-            <button
-              className={`join-item btn ${
-                !pageData.isLast ? "btn-disabled" : ""
-              }`}
-              onClick={() => onChangePage(pageData.endBlockPage + 1)}
-            >
-              »
-            </button>
-          </div>
+          <Pagenation
+            startBlockPage={pageData.startBlockPage}
+            endBlockPage={pageData.endBlockPage}
+            currentPage={pageData.currentPage}
+            isFirst={pageData.isFirst}
+            isLast={pageData.isLast}
+            onChangePage={onChangePage}
+          />
         </div>
       )}
     </>
