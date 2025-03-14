@@ -2,14 +2,17 @@
 
 import { certification } from "@/api/auth";
 import { createMemo } from "@/api/memo";
+import CAlert from "@/components/CAlert";
+import { IAlertEnum } from "@/interfaces/components/Alert";
 import { IMemo } from "@/interfaces/Memo";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 export default function MemoCreateContainer() {
   const router = useRouter();
-  const { data } = useQuery({
+  const queryClient = useQueryClient();
+  const { data: usersId } = useQuery({
     queryKey: ["usersIds"],
     queryFn: certification,
   });
@@ -24,6 +27,9 @@ export default function MemoCreateContainer() {
   const { mutate, isError, isPending, isSuccess, error } = useMutation({
     mutationFn: createMemo,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["memos"],
+      });
       router.push("/memo");
     },
   });
@@ -42,7 +48,7 @@ export default function MemoCreateContainer() {
     e.preventDefault();
 
     mutate({
-      usersId: data.data,
+      usersId: usersId.data,
       dto: form,
     });
   };
@@ -95,6 +101,7 @@ export default function MemoCreateContainer() {
               onChange={handleChange}
             />
           </fieldset>
+          {isError && <CAlert type={IAlertEnum.ERROR}>{error.message}</CAlert>}
           <div className="justify-end card-actions">
             <button
               className="btn btn-success btn-block"
