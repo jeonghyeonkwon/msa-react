@@ -4,7 +4,7 @@ import {
   resetAuthCookie,
   setAuthCookie,
 } from "./cookie";
-import { RequestMethod } from "./Request";
+import { RequestMethod, MsaService } from "./Request";
 import { ErrorCode } from "./Response";
 
 const AUTHORIZATION = "authorization";
@@ -15,6 +15,7 @@ export const useApi = () => {
   const fetchData = async (
     endpoint: string,
     method: RequestMethod,
+    msaService: MsaService,
     body?: any
   ) => {
     const headers: any = {
@@ -39,7 +40,7 @@ export const useApi = () => {
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DEV_URL}${endpoint}`,
+      `${process.env.NEXT_PUBLIC_DEV_URL}${msaService}${endpoint}`,
       options
     );
 
@@ -50,7 +51,7 @@ export const useApi = () => {
       if (response.status === ErrorCode.Unauthorized) {
         await reissueToken();
         return await fetchData(
-          `${process.env.NEXT_PUBLIC_DEV_URL}${endpoint}`,
+          `${process.env.NEXT_PUBLIC_DEV_URL}${msaService}${endpoint}`,
           method,
           body
         );
@@ -85,7 +86,7 @@ const reissueToken = async () => {
   };
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_DEV_URL}/api/auth/reissue`,
+    `${process.env.NEXT_PUBLIC_DEV_URL}${MsaService.AUTH}/api/auth/reissue`,
     options
   );
 

@@ -7,14 +7,13 @@ interface MemoDetailProps {
   slug: Number;
 }
 export default function MemoDetail({ params }: { params: MemoDetailProps }) {
-  console.log(params.slug);
   const router = useRouter();
   return (
     <div>
       <div className="mb-2">
         <BackButton onClickBack={() => router.back()} />
       </div>
-      <MemoDetailContainer />
+      <MemoDetailContainer memoId={String(params.slug)} />
     </div>
   );
 }

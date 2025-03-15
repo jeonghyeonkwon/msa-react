@@ -10,7 +10,6 @@ import { useCallback, useEffect, useState } from "react";
 export default function MemoContainer() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [size, setSize] = useState<number>(1);
-  const [post, setPost] = useState<IMemoSimple | null>(null);
   const { data: usersId, isSuccess: authSuccess } = useQuery({
     queryKey: ["usersIds"],
     queryFn: certification,

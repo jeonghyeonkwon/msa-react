@@ -1,8 +1,8 @@
 import { IMemo } from "@/interfaces/Memo";
 import { useApi } from "./client";
-import { RequestMethod } from "./Request";
+import { MsaService, RequestMethod } from "./Request";
 
-const BASE_ENDPOINT = (usersId: string) => `/api/${usersId}/memo`;
+const BASE_ENDPOINT = (usersId: string) => `/api/user/${usersId}/memo`;
 
 const LIST = (
   usersId: string,
@@ -14,6 +14,9 @@ const LIST = (
     usersId
   )}?page=${currentPage}&size=${size}&pageBlock=${blockSize}`;
 
+const DETAIL = (usersId: string, memoId: String) =>
+  `${BASE_ENDPOINT(usersId)}/${memoId}`;
+
 interface createMemoProps {
   usersId: string;
   dto: IMemo;
@@ -23,13 +26,22 @@ interface getMemosProps {
   currentPage: number;
   size: number;
 }
+interface getMemoProps {
+  usersId: string;
+  memoId: string;
+}
 export const createMemo = async ({
   usersId,
   dto,
 }: createMemoProps): Promise<any> => {
   const { fetchData } = useApi();
 
-  return await fetchData(BASE_ENDPOINT(usersId), RequestMethod.POST, dto);
+  return await fetchData(
+    BASE_ENDPOINT(usersId),
+    RequestMethod.POST,
+    MsaService.MEMO,
+    dto
+  );
 };
 
 export const getMemos = async ({
@@ -39,5 +51,22 @@ export const getMemos = async ({
 }: getMemosProps): Promise<any> => {
   const { fetchData } = useApi();
 
-  return await fetchData(LIST(usersId, currentPage, size), RequestMethod.GET);
+  return await fetchData(
+    LIST(usersId, currentPage, size),
+    RequestMethod.GET,
+    MsaService.MEMO
+  );
+};
+
+export const getMemo = async ({
+  usersId,
+  memoId,
+}: getMemoProps): Promise<any> => {
+  const { fetchData } = useApi();
+
+  return await fetchData(
+    DETAIL(usersId, memoId),
+    RequestMethod.GET,
+    MsaService.MEMO
+  );
 };

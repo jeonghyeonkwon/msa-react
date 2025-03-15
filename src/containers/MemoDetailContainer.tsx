@@ -1,27 +1,46 @@
-export default function MemoDetailContainer() {
+import { certification } from "@/api/auth";
+import { getMemo } from "@/api/memo";
+import { useQuery } from "@tanstack/react-query";
+
+interface MemoDetailProps {
+  memoId: string;
+}
+export default function MemoDetailContainer({ memoId }: MemoDetailProps) {
+  const { data: usersId, isSuccess: authSuccess } = useQuery({
+    queryKey: ["usersIds"],
+    queryFn: certification,
+  });
+
+  const {
+    data: memoData,
+    isSuccess,
+    isError,
+  } = useQuery({
+    queryKey: ["memo", memoId],
+    queryFn: () =>
+      getMemo({
+        usersId: usersId.data,
+        memoId: memoId,
+      }),
+    enabled: !!authSuccess,
+  });
+
   return (
     <div className="card card-border bg-base-100 ">
       <div className="card-body">
         <div className="">
-          <h1 className="card-title">메모 제목</h1>
+          <h1 className="card-title">{memoData.title}</h1>
         </div>
         <div>
           <label>시작일 :</label>
-          <b>2025.03.09 11:20</b>
+          <b>{memoData.startDate}</b>
         </div>
         <div>
-          <label>시작일 :</label>
-          <b>2025.03.09 11:20</b>
+          <label>종료일 :</label>
+          <b>{memoData.endDate}</b>
         </div>
         <div>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-            inventore eveniet consequuntur recusandae, soluta dicta repudiandae
-            blanditiis at quo aspernatur minus sed excepturi illo sit delectus
-            odio, asperiores nihil eius. Facere optio eaque a unde veritatis
-            laborum recusandae harum. Aut dignissimos culpa cumque odio ex
-            cupiditate explicabo eius repudiandae fugiat.
-          </p>
+          <p>{memoData.content}</p>
         </div>
       </div>
     </div>
