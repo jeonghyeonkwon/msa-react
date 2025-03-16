@@ -23,3 +23,12 @@ export const certification = async (): Promise<any> => {
   const { fetchData } = useApi();
   return await fetchData(BASE_ENDPOINT(""), RequestMethod.GET, MsaService.AUTH);
 };
+
+export const logout = async (): Promise<any> => {
+  const { fetchData } = useApi();
+  return await fetchData(
+    BASE_ENDPOINT("/logout"),
+    RequestMethod.GET,
+    MsaService.AUTH
+  );
+};

@@ -1,18 +1,34 @@
+"use client";
+
+import { logoutAction } from "@/store/authSlice";
+import { AppDispatch, RootState } from "@/store/store";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface CHeaderProps {
   headerRef: React.RefObject<HTMLDivElement | null>;
 }
 export default function CHeader({ headerRef }: CHeaderProps) {
+  const isSuccess = useSelector((state: RootState) => state.auth.isSuccess);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onClickLogout = () => {
+    dispatch(logoutAction());
+  };
+
   return (
-    <div className="navbar bg-base-100 shadow-sm" ref={headerRef}>
+    <div className="shadow-sm navbar bg-base-100" ref={headerRef}>
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">MSA</a>
+        <a className="text-xl btn btn-ghost">MSA</a>
       </div>
       <div className="flex gap-2">
-        <Link href="/login">
-          <button className="btn btn-accent">로그인</button>
-        </Link>
+        {!isSuccess && (
+          <Link href="/login">
+            <button className="btn btn-accent">로그인</button>
+          </Link>
+        )}
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -28,7 +44,7 @@ export default function CHeader({ headerRef }: CHeaderProps) {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="p-2 mt-3 shadow menu menu-sm dropdown-content bg-base-100 rounded-box z-1 w-52"
           >
             <li>
               <a className="justify-between">
@@ -39,9 +55,11 @@ export default function CHeader({ headerRef }: CHeaderProps) {
             <li>
               <a>Settings</a>
             </li>
-            <li>
-              <a>Logout</a>
-            </li>
+            {isSuccess && (
+              <li>
+                <a onClick={onClickLogout}>Logout</a>
+              </li>
+            )}
           </ul>
         </div>
       </div>

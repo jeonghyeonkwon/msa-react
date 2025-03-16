@@ -18,6 +18,5 @@ export const getAccessTokenByCookie = () => {
 
 export const resetAuthCookie = () => {
   deleteCookie(ACCESS_TOKEN);
-
   deleteCookie(USERS_ID_KEY);
 };

@@ -1,3 +1,4 @@
+import { isAuthError } from "@/store/store";
 import {
   ACCESS_TOKEN,
   getAccessTokenByCookie,
@@ -78,20 +79,28 @@ const reissueToken = async () => {
     Accept: "application/json",
   };
 
-  const options: RequestInit = {
-    method: RequestMethod.POST,
-    headers,
-    credentials: "include",
-    mode: "cors",
-  };
-
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_DEV_URL}${MsaService.AUTH}/api/auth/reissue`,
-    options
+    {
+      method: RequestMethod.POST,
+      headers,
+      credentials: "include",
+      mode: "cors",
+    }
   );
 
   if (!response.ok) {
-    resetAuthCookie();
+    const logoutResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_DEV_URL}${MsaService.AUTH}/api/auth/logout`,
+      {
+        method: RequestMethod.GET,
+        headers,
+        credentials: "include",
+        mode: "cors",
+      }
+    );
+
+    isAuthError();
     throw new Error("다시 로그인 해주세요");
   }
 

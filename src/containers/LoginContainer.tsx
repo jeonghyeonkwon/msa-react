@@ -2,11 +2,13 @@ import { login } from "@/api/auth";
 import CAlert from "@/components/CAlert";
 import { IAuth } from "@/interfaces/Auth";
 import { IAlertEnum } from "@/interfaces/components/Alert";
+import { successAuth } from "@/store/authSlice";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function LoginContainer() {
   const router = useRouter();
@@ -14,9 +16,11 @@ export default function LoginContainer() {
     username: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const { mutate, isPending, isSuccess, isError, error } = useMutation({
     mutationFn: login,
     onSuccess(data) {
+      dispatch(successAuth());
       setTimeout(() => {
         router.push("/");
       }, 3000);

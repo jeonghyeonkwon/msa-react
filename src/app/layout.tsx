@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { CBody, CFooter, CHeader, CLayout } from "@/containers/layouts";
 import { ReactQueryClientProvider } from "@/hooks/useReactQuery";
+import ReduxProvider from "@/providers/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,17 +28,19 @@ export default function RootLayout({
 }>) {
   return (
     <ReactQueryClientProvider>
-      <html lang="ko" suppressHydrationWarning>
-        <head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-        </head>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <CLayout>{children}</CLayout>
-        </body>
-      </html>
+      <ReduxProvider>
+        <html lang="ko" suppressHydrationWarning>
+          <head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+          </head>
+          <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            <CLayout>{children}</CLayout>
+          </body>
+        </html>
+      </ReduxProvider>
     </ReactQueryClientProvider>
   );
 }
