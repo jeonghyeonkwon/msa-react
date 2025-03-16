@@ -1,3 +1,4 @@
+"use client";
 import { certification } from "@/api/auth";
 import { getMemo } from "@/api/memo";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +14,7 @@ export default function MemoDetailContainer({ memoId }: MemoDetailProps) {
 
   const {
     data: memoData,
-    isSuccess,
+    isSuccess: memoDetailIsSuccess,
     isError,
   } = useQuery({
     queryKey: ["memo", memoId],
@@ -27,22 +28,24 @@ export default function MemoDetailContainer({ memoId }: MemoDetailProps) {
 
   return (
     <div className="card card-border bg-base-100 ">
-      <div className="card-body">
-        <div className="">
-          <h1 className="card-title">{memoData.title}</h1>
+      {memoDetailIsSuccess && (
+        <div className="card-body">
+          <div className="">
+            <h1 className="card-title">{memoData.title}</h1>
+          </div>
+          <div>
+            <label>시작일 :</label>
+            <b>{memoData.startDate}</b>
+          </div>
+          <div>
+            <label>종료일 :</label>
+            <b>{memoData.endDate}</b>
+          </div>
+          <div>
+            <p>{memoData.content}</p>
+          </div>
         </div>
-        <div>
-          <label>시작일 :</label>
-          <b>{memoData.startDate}</b>
-        </div>
-        <div>
-          <label>종료일 :</label>
-          <b>{memoData.endDate}</b>
-        </div>
-        <div>
-          <p>{memoData.content}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

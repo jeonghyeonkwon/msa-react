@@ -63,7 +63,6 @@ export const getMemo = async ({
   memoId,
 }: getMemoProps): Promise<any> => {
   const { fetchData } = useApi();
-
   return await fetchData(
     DETAIL(usersId, memoId),
     RequestMethod.GET,
