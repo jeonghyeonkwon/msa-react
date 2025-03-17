@@ -4,7 +4,7 @@ import { logoutAction } from "@/store/authSlice";
 import { AppDispatch, RootState } from "@/store/store";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 
 interface CHeaderProps {

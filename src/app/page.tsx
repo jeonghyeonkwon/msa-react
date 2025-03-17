@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
@@ -7,9 +9,12 @@ export default function Home() {
           인기글 보기
         </div>
         <div className="divider divider-horizontal"></div>
-        <div className="grid h-20 card bg-base-300 rounded-box grow place-items-center">
+        <Link
+          href="/board"
+          className="grid h-20 card bg-base-300 rounded-box grow place-items-center"
+        >
           게시글 보기
-        </div>
+        </Link>
       </div>
       <div className="divider divider-info">메모</div>
       <div className="flex w-full">

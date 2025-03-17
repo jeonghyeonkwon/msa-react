@@ -11,7 +11,7 @@ export const authSlice = createSlice({
     successAuth: (prevState) => {
       prevState.isSuccess = true;
     },
-    isAuthErrorAction: (state) => {
+    authErrorAction: (state) => {
       resetAuthCookie();
       state.isSuccess = false;
     },
@@ -28,5 +28,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { successAuth, isAuthErrorAction } = authSlice.actions;
+export const { successAuth, authErrorAction } = authSlice.actions;
 export default authSlice.reducer;

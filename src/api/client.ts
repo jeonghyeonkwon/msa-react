@@ -1,4 +1,4 @@
-import { isAuthError } from "@/store/store";
+import { authError, authSuccess } from "@/store/store";
 import {
   ACCESS_TOKEN,
   getAccessTokenByCookie,
@@ -90,7 +90,7 @@ const reissueToken = async () => {
   );
 
   if (!response.ok) {
-    const logoutResponse = await fetch(
+    await fetch(
       `${process.env.NEXT_PUBLIC_DEV_URL}${MsaService.AUTH}/api/auth/logout`,
       {
         method: RequestMethod.GET,
@@ -100,10 +100,11 @@ const reissueToken = async () => {
       }
     );
 
-    isAuthError();
+    authError();
     throw new Error("다시 로그인 해주세요");
   }
 
+  authSuccess();
   const accessToken = response.headers.get(ACCESS_TOKEN);
   const { data: usersId } = await response.json();
   setAuthCookie(usersId, accessToken!);

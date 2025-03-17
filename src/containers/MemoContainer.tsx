@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 export default function MemoContainer() {
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [size, setSize] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
   const { data: usersId, isSuccess: authSuccess } = useQuery({
     queryKey: ["usersIds"],
     queryFn: certification,
