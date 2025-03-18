@@ -9,9 +9,11 @@ export default function BoardRow({ boardData }: BoardRowProps) {
         <div className="flex items-center justify-between w-90 h-60">
           <div className="flex">
             <div className="mr-4">
-              <span className="font-semibold ">{boardData.username}</span>
+              <span className="font-normal ">{boardData.username}</span>
             </div>
-            <div className="text-gray-300">{boardData.createDate}</div>
+            <div className="font-thin text-gray-300">
+              {boardData.createDate}
+            </div>
           </div>
           <div className="flex items-center w-20">
             <svg viewBox="0 0 16 16" height="15" width="15">
@@ -25,7 +27,7 @@ export default function BoardRow({ boardData }: BoardRowProps) {
             <span className="ml-1">{String(boardData.commentCount)}</span>
           </div>
         </div>
-        <div className="overflow-hidden h-39 whitespace-nowrap w-90 text-ellipsis">
+        <div className="overflow-hidden text-1xl h-39 whitespace-nowrap w-90 text-ellipsis">
           {boardData.title}
         </div>
         <div className="h-1 bg-gray-500 w-90 rounded-xl"></div>

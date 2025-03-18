@@ -1,6 +1,7 @@
 "use client";
 import BoardRow from "@/components/BoardRow";
 import BoardTable from "@/components/BoardTable";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function BoardListContainer() {
@@ -37,7 +38,12 @@ export default function BoardListContainer() {
   ]);
   return (
     <div className="overflow-x-auto">
-      <div className="m-4 badge badge-soft badge-accent">전체 게시글</div>
+      <div className="flex items-center justify-between">
+        <div className="m-4 badge badge-soft badge-accent">전체 게시글</div>
+        <Link href="/board/create" className="mb-2 mr-3 btn btn-info">
+          New.
+        </Link>
+      </div>
       <BoardTable isSuccess={success} list={list} />
     </div>
   );

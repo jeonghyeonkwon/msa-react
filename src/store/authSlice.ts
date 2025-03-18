@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { resetAuthCookie } from "@/api/cookie";
 import { logout } from "@/api/auth";
 
-export const logoutAction = createAsyncThunk("auth/logout", logout);
+export const logoutAction = createAsyncThunk("auth/logout", () => logout());
 
 export const authSlice = createSlice({
   name: "auth",

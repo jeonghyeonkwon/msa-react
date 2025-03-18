@@ -5,3 +5,8 @@ interface ISimpleBoard {
   createDate: string;
   commentCount: Number;
 }
+
+interface IBoardCreate {
+  title: string;
+  content: string;
+}

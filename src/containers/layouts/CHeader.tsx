@@ -1,9 +1,11 @@
 "use client";
 
+import { getAccessTokenByCookie } from "@/api/cookie";
 import { logoutAction } from "@/store/authSlice";
-import { AppDispatch, RootState } from "@/store/store";
+import { AppDispatch, authSuccess, RootState } from "@/store/store";
 
 import Link from "next/link";
+import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +20,12 @@ export default function CHeader({ headerRef }: CHeaderProps) {
     dispatch(logoutAction());
   };
 
+  useEffect(() => {
+    const isExistAccess = getAccessTokenByCookie();
+    if (isExistAccess) {
+      dispatch(authSuccess);
+    }
+  }, []);
   return (
     <div className="shadow-sm navbar bg-base-100" ref={headerRef}>
       <div className="flex-1">
