@@ -24,7 +24,9 @@ export default function BoardRow({ boardData }: BoardRowProps) {
                 ></path>
               </g>
             </svg>
-            <span className="ml-1">{String(boardData.commentCount)}</span>
+            <span className="ml-1">
+              {boardData.commentCount ? String(boardData.commentCount) : "0"}
+            </span>
           </div>
         </div>
         <div className="overflow-hidden text-1xl h-39 whitespace-nowrap w-90 text-ellipsis">

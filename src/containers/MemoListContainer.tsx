@@ -7,7 +7,7 @@ import { IMemoSimple } from "@/interfaces/Memo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-export default function MemoContainer() {
+export default function MemoListContainer() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [size, setSize] = useState<number>(10);
   const { data: usersId, isSuccess: authSuccess } = useQuery({

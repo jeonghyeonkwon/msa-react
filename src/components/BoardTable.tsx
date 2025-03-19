@@ -6,9 +6,9 @@ interface BoardTableProps {
 }
 export default function BoardTable({ isSuccess, list }: BoardTableProps) {
   return (
-    <>
+    <div className="mb-3">
       {isSuccess &&
         list.map((dto: ISimpleBoard) => <BoardRow boardData={dto} />)}
-    </>
+    </div>
   );
 }

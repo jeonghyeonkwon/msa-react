@@ -1,4 +1,4 @@
-import MemoContainer from "@/containers/MemoContainer";
+import MemoListContainer from "@/containers/MemoListContainer";
 import Link from "next/link";
 export default function Memo() {
   return (
@@ -7,7 +7,7 @@ export default function Memo() {
         New.
       </Link>
 
-      <MemoContainer />
+      <MemoListContainer />
     </div>
   );
 }

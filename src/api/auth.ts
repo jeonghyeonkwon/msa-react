@@ -26,6 +26,7 @@ export const certification = async (): Promise<any> => {
 
 export const logout = async (): Promise<any> => {
   const { fetchData } = useApi();
+  
   return await fetchData(
     BASE_ENDPOINT("/logout"),
     RequestMethod.GET,

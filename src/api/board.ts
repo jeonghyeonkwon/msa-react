@@ -1,11 +1,22 @@
 import { useApi } from "./client";
 import { MsaService, RequestMethod } from "./Request";
 
-const BASE_ENDPOINT = (usersId: string) => `/api/user/${usersId}/board`;
+const BASE_ENDPOINT = `/api/boards`;
+const CREATE = (usersId: string) => `/api/user/${usersId}/board`;
+
+const LIST = (
+  currentPage: number = 0,
+  size: number = 10,
+  blockSize: number = 5
+) => `${BASE_ENDPOINT}?page=${currentPage}&size=${size}&pageBlock=${blockSize}`;
 
 interface createBoardProps {
   usersId: string;
   dto: IBoardCreate;
+}
+interface getBoardProps {
+  currentPage: number;
+  size: number;
 }
 export const createBoard = async ({
   usersId,
@@ -14,9 +25,22 @@ export const createBoard = async ({
   const { fetchData } = useApi();
 
   return await fetchData(
-    BASE_ENDPOINT(usersId),
+    CREATE(usersId),
     RequestMethod.POST,
     MsaService.BOARD,
     dto
+  );
+};
+
+export const getBoards = async ({
+  currentPage,
+  size,
+}: getBoardProps): Promise<any> => {
+  const { fetchData } = useApi();
+
+  return await fetchData(
+    LIST(currentPage, size),
+    RequestMethod.GET,
+    MsaService.BOARD
   );
 };
