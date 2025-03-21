@@ -12,7 +12,7 @@ export default function BoardDetail() {
       <div className="mb-2">
         <BackButton onClickBack={() => router.back()} />
       </div>
-      <BoardDetailContainer />
+      <BoardDetailContainer boardId={params.slug} />
     </div>
   );
 }

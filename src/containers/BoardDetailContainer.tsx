@@ -1,9 +1,24 @@
+import { getBoardDetail } from "@/api/board";
 import Board from "@/components/Board";
+import { useQuery } from "@tanstack/react-query";
 
-export default function BoardDetailContainer() {
+interface BoardDetailProps {
+  boardId: string;
+}
+export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
+  const {
+    data: boardData,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["board", boardId],
+    queryFn: () => getBoardDetail({ boardId }),
+  });
   return (
     <>
-      <Board />
+      {isSuccess && <Board data={boardData as IBoardDetail} />}
+
       <div className="flex flex-col w-full">
         <div className="divider divider-start divider-info">댓글</div>
       </div>

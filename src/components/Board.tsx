@@ -1,4 +1,8 @@
-export default function Board() {
+interface BoardProps {
+  data: IBoardDetail;
+}
+
+export default function Board({ data }: BoardProps) {
   return (
     <div className="card card-border bg-base-100 ">
       <div className="card-body">
@@ -10,9 +14,9 @@ export default function Board() {
             />
           </div>
           <div>
-            <div>givejeong</div>
+            <div className="font-bold">{data.username}</div>
             <div className="flex items-center">
-              <div className="mr-5">1993.09.23</div>
+              <div className="mr-5 text-gray-300">{data.createdAt}</div>
               <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -29,23 +33,16 @@ export default function Board() {
                     fill="currentColor"
                   ></path>
                 </svg>
-                <span>15</span>
+                <span>{String(data.viewCount)}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="text-lg font-black">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum, eum.
-        </div>
+        <div className="text-lg font-black">{data.title}</div>
 
         <div>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati
-            fugiat saepe cum optio. Dolorum fugit ipsam nostrum amet suscipit
-            consectetur impedit asperiores voluptate molestiae soluta. Animi
-            aliquid doloribus a natus.
-          </p>
+          <p>{data.content}</p>
         </div>
       </div>
     </div>

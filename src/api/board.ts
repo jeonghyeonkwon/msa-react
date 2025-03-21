@@ -44,3 +44,17 @@ export const getBoards = async ({
     MsaService.BOARD
   );
 };
+
+interface getBoardDetailProps {
+  boardId: string;
+}
+export const getBoardDetail = async ({
+  boardId,
+}: getBoardDetailProps): Promise<any> => {
+  const { fetchData } = useApi();
+  return await fetchData(
+    `${BASE_ENDPOINT}/${boardId}`,
+    RequestMethod.GET,
+    MsaService.BOARD
+  );
+};
