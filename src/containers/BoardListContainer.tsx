@@ -44,7 +44,7 @@ export default function BoardListContainer() {
           {pageData.list.length === 0 && (
             <div className="w-full mb-3 card card-dash bg-base-100">
               <div className="card-body">
-                <h2 className="card-title">메모를 생성해 주세요</h2>
+                <h2 className="card-title">게시글이 없습니다</h2>
                 <p></p>
                 <div className="justify-end card-actions"></div>
               </div>

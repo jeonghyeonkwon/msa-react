@@ -10,6 +10,9 @@ const LIST = (
   blockSize: number = 5
 ) => `${BASE_ENDPOINT}?page=${currentPage}&size=${size}&pageBlock=${blockSize}`;
 
+const CREATE_COMMENT = (boardId: string) =>
+  `${BASE_ENDPOINT}/${boardId}/comments`;
+
 interface createBoardProps {
   usersId: string;
   dto: IBoardCreate;
@@ -56,5 +59,26 @@ export const getBoardDetail = async ({
     `${BASE_ENDPOINT}/${boardId}`,
     RequestMethod.GET,
     MsaService.BOARD
+  );
+};
+
+interface createCommentProps {
+  boardId: string;
+  dto: {
+    usersId: string;
+    content: string;
+  };
+}
+export const createComment = async ({
+  boardId,
+  dto,
+}: createCommentProps): Promise<any> => {
+  const { fetchData } = useApi();
+
+  return await fetchData(
+    CREATE_COMMENT(boardId),
+    RequestMethod.POST,
+    MsaService.BOARD,
+    dto
   );
 };

@@ -5,15 +5,13 @@ interface BoardRowProps {
 export default function BoardRow({ boardData }: BoardRowProps) {
   return (
     <Link href={`/board/${boardData.boardId}`}>
-      <div className="flex flex-col items-center justify-between w-full h-20 ">
-        <div className="flex items-center justify-between w-90 h-60">
+      <div className="flex flex-col items-center justify-between w-full p-3 h-25">
+        <div className="flex items-center justify-between w-full h-60">
           <div className="flex">
             <div className="mr-4">
               <span className="font-normal ">{boardData.username}</span>
             </div>
-            <div className="font-thin text-gray-300">
-              {boardData.createDate}
-            </div>
+            <div className="font-thin text-gray-300">{boardData.createdAt}</div>
           </div>
           <div className="flex items-center w-20">
             <svg viewBox="0 0 16 16" height="15" width="15">
@@ -29,10 +27,10 @@ export default function BoardRow({ boardData }: BoardRowProps) {
             </span>
           </div>
         </div>
-        <div className="overflow-hidden text-1xl h-39 whitespace-nowrap w-90 text-ellipsis">
+        <div className="w-full overflow-hidden font-black h-39 whitespace-nowrap text-ellipsis">
           {boardData.title}
         </div>
-        <div className="h-1 bg-gray-500 w-90 rounded-xl"></div>
+        <div className="w-full h-1 mt-3 bg-gray-500 rounded-xl"></div>
       </div>
     </Link>
   );

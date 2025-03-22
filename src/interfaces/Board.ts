@@ -2,7 +2,7 @@ interface ISimpleBoard {
   boardId: string;
   title: string;
   username: string;
-  createDate: string;
+  createdAt: string;
   commentCount: Number;
 }
 

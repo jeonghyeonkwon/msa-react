@@ -8,7 +8,7 @@ export default function BoardDetail() {
   const params = useParams<{ slug: string }>();
 
   return (
-    <div>
+    <div className="h-full overflow-y-auto">
       <div className="mb-2">
         <BackButton onClickBack={() => router.back()} />
       </div>
