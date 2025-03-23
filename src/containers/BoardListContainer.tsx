@@ -8,8 +8,6 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 
 export default function BoardListContainer() {
-  const [success, setSuccess] = useState<boolean>(true);
-
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [size, setSize] = useState<number>(10);
   const {
@@ -38,7 +36,7 @@ export default function BoardListContainer() {
       {isSuccess && (
         <>
           <BoardTable
-            isSuccess={success}
+            isSuccess={isSuccess}
             list={pageData.list as ISimpleBoard[]}
           />
           {pageData.list.length === 0 && (

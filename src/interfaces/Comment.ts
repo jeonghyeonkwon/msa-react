@@ -4,4 +4,5 @@ interface IComment {
   createdDate: string;
   username: string;
   usersId: string;
+  isOpenForm: boolean;
 }

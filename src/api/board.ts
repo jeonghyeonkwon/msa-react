@@ -13,6 +13,14 @@ const LIST = (
 const CREATE_COMMENT = (boardId: string) =>
   `${BASE_ENDPOINT}/${boardId}/comments`;
 
+const COMMENT_LIST = (
+  boardId: string,
+  currentPage: number = 0,
+  size: number = 10,
+  blockSize: number = 5
+) =>
+  `${BASE_ENDPOINT}/${boardId}/comments?page=${currentPage}&size=${size}&pageBlock=${blockSize}`;
+
 interface createBoardProps {
   usersId: string;
   dto: IBoardCreate;
@@ -69,6 +77,27 @@ interface createCommentProps {
     content: string;
   };
 }
+
+interface getCommentsProps {
+  boardId: string;
+  currentPage: number;
+  size: number;
+  blockSize?: number;
+}
+export const getComments = async ({
+  boardId,
+  currentPage,
+  size,
+  blockSize,
+}: getCommentsProps): Promise<any> => {
+  const { fetchData } = useApi();
+  return await fetchData(
+    COMMENT_LIST(boardId, currentPage, size, blockSize),
+    RequestMethod.GET,
+    MsaService.BOARD
+  );
+};
+
 export const createComment = async ({
   boardId,
   dto,
