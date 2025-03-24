@@ -70,14 +70,6 @@ export const getBoardDetail = async ({
   );
 };
 
-interface createCommentProps {
-  boardId: string;
-  dto: {
-    usersId: string;
-    content: string;
-  };
-}
-
 interface getCommentsProps {
   boardId: string;
   currentPage: number;
@@ -97,6 +89,14 @@ export const getComments = async ({
     MsaService.BOARD
   );
 };
+interface createCommentProps {
+  boardId: string;
+  dto: {
+    usersId: string;
+    content: string;
+    parentId?: string;
+  };
+}
 
 export const createComment = async ({
   boardId,

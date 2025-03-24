@@ -30,16 +30,38 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
   const mutation = useMutation({
     mutationFn: createComment,
     onSuccess: (data) => {
-      setComment("");
-      setComments((prev) => {
-        const successData = { ...data, isOpenForm: false };
-        return [successData, ...prev];
-      });
+      if (data.parentId !== null) {
+        const reply = { ...data } as IReply;
+        setComments((prev: IComment[]) =>
+          prev.map((item: IComment) =>
+            item.commentId === data.parentId
+              ? {
+                  ...item,
+                  replies: item.replies ? [...item.replies, reply] : [reply],
+                  replyContent: "",
+                }
+              : item
+          )
+        );
+
+        return;
+      }
+      if (data.parentId === null) {
+        setComment("");
+        setComments((prev) => {
+          const successData = {
+            ...data,
+            isOpenForm: false,
+            replies: [],
+          } as IComment;
+          return [successData, ...prev];
+        });
+      }
     },
   });
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
+      const { value } = e.target;
       setComment(value);
     },
     [comment]
@@ -54,8 +76,6 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
     },
     [comment]
   );
-
-  // 댓글
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [size, setSize] = useState<number>(10);
@@ -73,28 +93,29 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
   useEffect(() => {
     if (fetchCommentSuccess) {
       setComments((prev) => [
-        ...commentPage.list.map((comment: IComment) => ({
-          commentId: comment.commentId,
-          content: comment.content,
-          createdDate: comment.createdDate,
-          username: comment.username,
-          usersId: comment.usersId,
-          isOpenForm: false,
-        })),
+        ...commentPage.list.map((comment: IComment) => {
+          return {
+            commentId: comment.commentId,
+            content: comment.content,
+            createdDate: comment.createdDate,
+            username: comment.username,
+            usersId: comment.usersId,
+            isOpenForm: false,
+            replyContent: "",
+            replies: comment.replies,
+          };
+        }),
       ]);
     }
   }, [commentPage]);
   const onChangePage = useCallback(
     (page: number) => {
-      console.log(page);
       setCurrentPage(() => page);
     },
     [currentPage]
   );
   const onClickToggleForm = useCallback(
     (commentId: string) => {
-      console.log("click", commentId);
-      console.log(comments);
       setComments((prev) =>
         prev.map((comment: IComment) =>
           comment.commentId === commentId
@@ -102,6 +123,39 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
             : comment
         )
       );
+    },
+    [comments]
+  );
+
+  const handleReplyTextArea = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>, parentId: string) => {
+      const { value } = e.target;
+      setComments((prev) =>
+        prev.map((comment: IComment) =>
+          comment.commentId === parentId
+            ? { ...comment, replyContent: value }
+            : comment
+        )
+      );
+    },
+    [comments]
+  );
+
+  const onClickReply = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>, parentId: string) => {
+      e.preventDefault();
+      const parentComment = comments.find(
+        (comment: IComment) => comment.commentId === parentId
+      );
+
+      mutation.mutate({
+        boardId,
+        dto: {
+          usersId: usersId.data,
+          content: parentComment!.replyContent,
+          parentId: parentId,
+        },
+      });
     },
     [comments]
   );
@@ -174,27 +228,41 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
                 <textarea
                   placeholder="댓글 내용을 입력하세요."
                   className="mr-2 textarea textarea-info"
+                  onChange={(e) => handleReplyTextArea(e, commentDto.commentId)}
+                  value={commentDto.replyContent}
                 ></textarea>
-                <button className="btn btn-info btn-sm">답글 달기</button>
+                <button
+                  className="btn btn-info btn-sm"
+                  onClick={(e) => onClickReply(e, commentDto.commentId)}
+                >
+                  답글 달기
+                </button>
               </div>
+
+              {commentDto.replies &&
+                commentDto.replies.map((reply) => (
+                  <div className="chat chat-end">
+                    <div className="chat-image avatar">
+                      <div className="w-10 rounded-full">
+                        <img
+                          alt="Tailwind CSS chat bubble component"
+                          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                        />
+                      </div>
+                    </div>
+                    <div className="chat-header">
+                      {reply.username}
+                      <time className="text-xs opacity-50">
+                        {reply.createdDate}
+                      </time>
+                    </div>
+                    <div className="chat-bubble">{reply.content}</div>
+                    <div className="opacity-50 chat-footer">답글</div>
+                  </div>
+                ))}
             </div>
           ))}
-          <div className="chat chat-end">
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS chat bubble component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
-              </div>
-            </div>
-            <div className="chat-header">
-              Anakin
-              <time className="text-xs opacity-50">12:46</time>
-            </div>
-            <div className="chat-bubble">I hate you!</div>
-            <div className="opacity-50 chat-footer">Seen at 12:46</div>
-          </div>
+
           <Pagenation
             isFirst={commentPage.isFirst}
             isLast={commentPage.isLast}
