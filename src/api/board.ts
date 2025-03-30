@@ -21,6 +21,7 @@ const COMMENT_LIST = (
 ) =>
   `${BASE_ENDPOINT}/${boardId}/comments?page=${currentPage}&size=${size}&pageBlock=${blockSize}`;
 
+const LIKE = (boardId: string) => `${BASE_ENDPOINT}/${boardId}/like`;
 interface createBoardProps {
   usersId: string;
   dto: IBoardCreate;
@@ -107,6 +108,39 @@ export const createComment = async ({
   return await fetchData(
     CREATE_COMMENT(boardId),
     RequestMethod.POST,
+    MsaService.BOARD,
+    dto
+  );
+};
+
+interface LikeProps {
+  usersId: string;
+  boardId: string;
+  type: string;
+}
+export const commandLike = async ({
+  usersId,
+  boardId,
+  type,
+}: LikeProps): Promise<any> => {
+  const { fetchData } = useApi();
+
+  const dto = {
+    usersId,
+  };
+
+  if (type === "INSERT") {
+    return await fetchData(
+      LIKE(boardId),
+      RequestMethod.POST,
+      MsaService.BOARD,
+      dto
+    );
+  }
+
+  return await fetchData(
+    LIKE(boardId),
+    RequestMethod.DELETE,
     MsaService.BOARD,
     dto
   );

@@ -5,7 +5,7 @@ import {
   resetAuthCookie,
   setAuthCookie,
 } from "./cookie";
-import { RequestMethod, MsaService } from "./Request";
+import { RequestMethod, MsaService, HttpStatus } from "./Request";
 import { ErrorCode } from "./Response";
 
 const AUTHORIZATION = "authorization";
@@ -66,6 +66,12 @@ export const useApi = () => {
       const { data: usersId } = await response.json();
       setAuthCookie(usersId, accessToken!);
       return usersId;
+    }
+    if (
+      response.status === HttpStatus.CREATED ||
+      response.status === HttpStatus.NO_CONTENT
+    ) {
+      return;
     }
 
     const responseBody = await response.json();

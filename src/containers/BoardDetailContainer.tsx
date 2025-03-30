@@ -1,5 +1,10 @@
 import { certification } from "@/api/auth";
-import { createComment, getBoardDetail, getComments } from "@/api/board";
+import {
+  commandLike,
+  createComment,
+  getBoardDetail,
+  getComments,
+} from "@/api/board";
 import Board from "@/components/Board";
 import Pagenation from "@/components/Pagenation";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -27,6 +32,15 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
   const [comment, setComment] = useState("");
 
   const [comments, setComments] = useState<IComment[]>([]);
+
+  const [liked, setLiked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLiked((prev) => boardData.liked);
+    }
+  }, [boardData]);
+
   const mutation = useMutation({
     mutationFn: createComment,
     onSuccess: (data) => {
@@ -159,9 +173,38 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
     },
     [comments]
   );
+
+  const likeMutation = useMutation({
+    mutationFn: commandLike,
+    onSuccess: (data) => {
+      setLiked((prev) => !prev);
+    },
+    onError: (error) => {
+      console.error("에러");
+    },
+  });
+
+  const onClickLike = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    boardId: string,
+    type: string
+  ) => {
+    e.preventDefault();
+    likeMutation.mutate({
+      usersId: usersId.data,
+      boardId: boardId,
+      type,
+    });
+  };
   return (
     <>
-      {isSuccess && <Board data={boardData as IBoardDetail} />}
+      {isSuccess && (
+        <Board
+          data={boardData as IBoardDetail}
+          onClickLike={onClickLike}
+          liked={liked}
+        />
+      )}
 
       <div className="flex flex-col w-full">
         <div className="divider divider-start divider-info">댓글</div>

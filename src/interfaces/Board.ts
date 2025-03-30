@@ -18,4 +18,5 @@ interface IBoardDetail {
   username: string;
   createdAt: string;
   viewCount: Number;
+  liked: boolean;
 }

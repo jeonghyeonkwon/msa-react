@@ -11,3 +11,8 @@ export enum MsaService {
   MEMO = "/memo-service",
   BOARD = "/board-service",
 }
+
+export enum HttpStatus {
+  CREATED = 201,
+  NO_CONTENT = 204,
+}
