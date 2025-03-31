@@ -68,8 +68,9 @@ export const useApi = () => {
       return usersId;
     }
     if (
-      response.status === HttpStatus.CREATED ||
-      response.status === HttpStatus.NO_CONTENT
+      (response.status === HttpStatus.CREATED ||
+        response.status === HttpStatus.NO_CONTENT) &&
+      !response.body
     ) {
       return;
     }
