@@ -2,7 +2,7 @@ import { useApi } from "./client";
 import { MsaService, RequestMethod } from "./Request";
 
 const BASE_ENDPOINT = `/api/boards`;
-const CREATE = (usersId: string) => `/api/user/${usersId}/board`;
+const CREATE = (usersId: string) => `/api/user/${usersId}/boards`;
 
 const LIST = (
   currentPage: number = 0,
