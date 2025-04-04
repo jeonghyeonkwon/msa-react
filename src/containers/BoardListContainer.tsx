@@ -26,7 +26,7 @@ export default function BoardListContainer() {
     [currentPage]
   );
   return (
-    <div className="overflow-x-auto">
+    <div className="h-full overflow-x-auto scrollbar-hide">
       <div className="flex items-center justify-between">
         <div className="m-4 badge badge-soft badge-accent">전체 게시글</div>
         <Link href="/board/create" className="mb-2 mr-3 btn btn-info">
@@ -39,6 +39,7 @@ export default function BoardListContainer() {
             isSuccess={isSuccess}
             list={pageData.list as ISimpleBoard[]}
           />
+
           {pageData.list.length === 0 && (
             <div className="w-full mb-3 card card-dash bg-base-100">
               <div className="card-body">
