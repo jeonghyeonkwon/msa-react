@@ -67,10 +67,11 @@ export const useApi = () => {
       setAuthCookie(usersId, accessToken!);
       return usersId;
     }
+
     if (
-      (response.status === HttpStatus.CREATED ||
-        response.status === HttpStatus.NO_CONTENT) &&
-      !response.body
+      (response.status === HttpStatus.CREATED &&
+        response.headers.get("Content-Length") === "0") ||
+      response.status === HttpStatus.NO_CONTENT
     ) {
       return;
     }

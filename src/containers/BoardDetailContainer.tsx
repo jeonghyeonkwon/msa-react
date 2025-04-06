@@ -38,7 +38,7 @@ export default function BoardDetailContainer({ boardId }: BoardDetailProps) {
       setLiked((prev) => !prev);
     },
     onError: (error) => {
-      console.error("에러");
+      console.error(error);
     },
   });
 
