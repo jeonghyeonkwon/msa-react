@@ -5,9 +5,12 @@ export default function Home() {
     <div className="flex flex-col w-full">
       <div className="divider divider-primary">게시글</div>
       <div className="flex w-full">
-        <div className="grid h-20 card bg-base-300 rounded-box grow place-items-center">
+        <Link
+          href="popular-posts"
+          className="grid h-20 card bg-base-300 rounded-box grow place-items-center"
+        >
           인기글 보기
-        </div>
+        </Link>
         <div className="divider divider-horizontal"></div>
         <Link
           href="/board"

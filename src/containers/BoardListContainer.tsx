@@ -28,7 +28,9 @@ export default function BoardListContainer() {
   return (
     <div className="h-full overflow-x-auto scrollbar-hide">
       <div className="flex items-center justify-between">
-        <div className="m-4 badge badge-soft badge-accent">전체 게시글</div>
+        <div className="m-4 badge badge-soft badge-accent badge-xl">
+          전체 게시글
+        </div>
         <Link href="/board/create" className="mb-2 mr-3 btn btn-info">
           New.
         </Link>

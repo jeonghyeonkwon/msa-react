@@ -10,6 +10,7 @@ export enum MsaService {
   AUTH = "/auth-service",
   MEMO = "/memo-service",
   BOARD = "/board-service",
+  POPULAR = "/popular-posts-service",
 }
 
 export enum HttpStatus {
